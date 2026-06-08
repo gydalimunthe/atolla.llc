@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atolla — Deep-Reef Climate Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #060c1a;
+      --navy-mid:  #0a1628;
+      --navy-card: #0e1e36;
+      --teal:      #00c4b8;
+      --teal-dim:  #00887f;
+      --teal-glow: rgba(0,196,184,0.15);
+      --white:     #f0f4f8;
+      --muted:     #7a92b0;
+      --border:    rgba(0,196,184,0.18);
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 6vw;
+      background: rgba(6,12,26,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--teal);
+      color: var(--navy) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; color: var(--navy) !important; }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 6vw 5rem;
+      overflow: hidden;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--teal-glow);
+      border: 1px solid var(--border);
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 820px;
+      margin-bottom: 1.5rem;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--teal);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--navy);
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 28px rgba(0,196,184,0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 42px rgba(0,196,184,0.45);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: var(--font-head);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-left: 1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--teal);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 6vw;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-body {
+      color: var(--muted);
+      max-width: 600px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 6vw;
+    }
+
+    /* ── DEPTH VISUALISATION ── */
+    .depth-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    @media (max-width: 800px) {
+      .depth-section { grid-template-columns: 1fr; }
+    }
+
+    .depth-chart {
+      position: relative;
+      height: 400px;
+      background: linear-gradient(to bottom,
+        rgba(135,206,250,0.08) 0%,
+        rgba(0,80,140,0.18) 15%,
+        rgba(0,30,80,0.45) 40%,
+        rgba(0,10,40,0.7) 100%
+      );
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .depth-tick {
+      position: absolute;
+      right: 0; left: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 1rem;
+    }
+    .depth-tick-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+    .depth-tick-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .depth-band {
+      position: absolute;
+      left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      padding-left: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .satellite-band {
+      top: 0;
+      height: 15%;
+      background: rgba(255,220,80,0.06);
+      border-bottom: 2px dashed rgba(255,220,80,0.5);
+      color: #f5c842;
+    }
+    .satellite-icon {
+      margin-right: 0.5rem;
+    }
+
+    .atolla-band {
+      top: 15%;
+      height: 85%;
+      background: linear-gradient(to bottom, var(--teal-glow), rgba(0,196,184,0.04));
+      border-top: 2px solid rgba(0,196,184,0.5);
+      color: var(--teal);
+      align-items: flex-start;
+      padding-top: 0.75rem;
+    }
+
+    .depth-surface-label {
+      position: absolute;
+      top: 6%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      color: rgba(255,220,80,0.9);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .depth-atolla-label {
+      position: absolute;
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      color: var(--teal);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .depth-marker {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+    }
+
+    /* ── PROBLEM GRID ── */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .problem-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+    }
+    .problem-icon {
+      width: 44px; height: 44px;
+      background: var(--teal-glow);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    .problem-card h3 {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .problem-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── DATASET ── */
+    .dataset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .dataset-item {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .dataset-item-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.4rem;
+    }
+    .dataset-item-value {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    /* ── TIERS ── */
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 860px) {
+      .tiers-grid { grid-template-columns: 1fr; }
+    }
+
+    .tier-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .tier-card:hover {
+      border-color: var(--teal-dim);
+      transform: translateY(-4px);
+    }
+    .tier-card.featured {
+      border-color: var(--teal);
+      background: linear-gradient(145deg, var(--navy-card), rgba(0,196,184,0.06));
+    }
+
+    .tier-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      margin-bottom: 1.25rem;
+      width: fit-content;
+    }
+    .tier-tag.conservation { background: rgba(80,200,120,0.15); color: #50c878; }
+    .tier-tag.esg          { background: rgba(0,196,184,0.15); color: var(--teal); }
+    .tier-tag.financial    { background: rgba(160,100,255,0.15); color: #a064ff; }
+
+    .tier-price {
+      font-family: var(--font-head);
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .tier-price-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .tier-card h3 {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .tier-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .tier-buyers {
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .tier-buyers strong {
+      display: block;
+      color: var(--white);
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── SCIENCE / TEAM ── */
+    .science-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .science-layout { grid-template-columns: 1fr; }
+    }
+
+    .science-credentials {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+    .science-credentials li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .science-credentials li:last-child { border-bottom: none; }
+    .cred-dot {
+      width: 6px; height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+      margin-top: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .team-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .team-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .team-card-name {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .team-card-role {
+      font-size: 0.8rem;
+      color: var(--teal);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+    .team-card-bio {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── LOCATIONS MAP PLACEHOLDER ── */
+    .locations-strip {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .location-dot-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .location-dot {
+      width: 10px; height: 10px;
+      background: var(--teal);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--teal);
+    }
+    .location-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+    .location-sep {
+      color: var(--border);
+      font-size: 1.2rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 6vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    @media (max-width: 800px) {
+      .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--white);
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      transition: border-color 0.2s, background 0.2s;
+      font-size: 0.9rem;
+    }
+    .contact-link:hover {
+      border-color: var(--teal);
+      background: var(--teal-glow);
+    }
+    .contact-link-icon {
+      width: 36px; height: 36px;
+      background: var(--teal-glow);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-link-meta { display: flex; flex-direction: column; }
+    .contact-link-label { font-size: 0.75rem; color: var(--muted); }
+    .contact-link-value { font-weight: 500; }
+
+    .contact-cta-block {
+      background: linear-gradient(135deg, var(--navy-card), rgba(0,196,184,0.07));
+      border: 1px solid var(--teal);
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
+    .contact-cta-block h3 {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .contact-cta-block p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2.5rem 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: var(--font-head);
+      font-weight: 700;
+      color: var(--teal);
+      font-size: 1.1rem;
+    }
+    footer p {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Atolla</a>
+  <ul class="nav-links">
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#dataset">The Dataset</a></li>
+    <li><a href="#tiers">Data Access</a></li>
+    <li><a href="#science">Science</a></li>
+    <li><a href="#contact" class="nav-cta">Request Brief</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-badge">Deep-Reef Climate Intelligence</div>
+  <h1>The only dataset from <em>the depth where bleaching starts</em></h1>
+  <p class="hero-sub">
+    Satellites physically cannot see below the surface. Atolla licenses the world's only longitudinal mesophotic reef dataset — 30 to 200 metres depth — providing an early-warning signal months before bleaching becomes visible anywhere else.
+  </p>
+  <div>
+    <a href="mailto:luca.minale2002@gmail.com?subject=Data%20Brief%20Request" class="btn-primary">Request Data Brief</a>
+    <a href="#problem" class="btn-ghost">Learn More</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">10+</span>
+      <span class="stat-label">Years of data</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">181m</span>
+      <span class="stat-label">Max depth certified</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Pacific site clusters</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">$375B</span>
+      <span class="stat-label">Annual reef economic output</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="depth-section">
+    <div class="fade-in">
+      <p class="section-label">The Visibility Gap</p>
+      <h2>Satellites see the surface.<br/>Bleaching starts below it.</h2>
+      <p class="section-body">
+        Every existing satellite and surface monitoring system measures the top few metres of ocean. Mesophotic reefs — the ecosystems at 30 to 200 metres depth — are entirely invisible to them. Yet this is where thermal stress first manifests, weeks to months before any surface indicator appears.
+      </p>
+      <div class="problem-grid" style="margin-top:2rem;">
+        <div class="problem-card">
+          <div class="problem-icon">🛰</div>
+          <h3>Satellite ceiling: ~5 metres</h3>
+          <p>Sea surface temperature sensors have zero penetration below the photic zone. No remote sensing tool currently monitors mesophotic conditions.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📉</div>
+          <h3>$375B at risk</h3>
+          <p>Coral reefs support over one billion livelihoods and generate $375 billion in annual economic output. Current monitoring misses the leading indicator of their collapse.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">⏱</div>
+          <h3>Months of advance signal</h3>
+          <p>Our data shows a bleaching precursor signal at depth that precedes surface-visible events. This window is where intervention, insurance, and investment decisions must be made.</p>
+        </div>
+      </div>
+    </div>
+    <div class="fade-in" style="transition-delay:0.15s;">
+      <div class="depth-chart" aria-label="Depth visualisation showing satellite monitoring range versus Atolla dataset range">
+        <!-- Satellite band -->
+        <div class="depth-band satellite-band" style="top:0;height:15%;">
+          <span class="satellite-icon">🛰</span> Satellite visibility
+        </div>
+        <!-- Depth ticks -->
+        <div class="depth-tick" style="top:15%;">
+          <span class="depth-tick-label">~10m — satellite ceiling</span>
+          <div class="depth-tick-line"></div>
+        </div>
+        <div class="depth-tick" style="top:30%;">
+          <div class="depth-tick-line"></div>
+          <span class="depth-tick-label">30m</span>
+        </div>
+        <div class="depth-tick" style="top:50%;">
+          <div class="depth-tick-line"></div>
+          <span class="depth-tick-label">80m</span>
+        </div>
+        <div class="depth-tick" style="top:70%;">
+          <div class="depth-tick-line"></div>
+          <span class="depth-tick-label">130m</span>
+        </div>
+        <div class="depth-tick" style="top:88%;">
+          <div class="depth-tick-line"></div>
+          <span class="depth-tick-label">181m — max certified depth</span>
+        </div>
+        <!-- Atolla band -->
+        <div class="depth-band atolla-band" style="top:15%;height:85%;border-top:2px solid rgba(0,196,184,0.6);">
+          <div style="padding:0.75rem 0 0 0.5rem;">
+            <div style="color:var(--teal);font-size:0.82rem;font-weight:600;margin-bottom:0.25rem;">↓ Atolla dataset</div>
+            <div style="font-size:0.75rem;color:var(--muted);line-height:1.5;">Only continuous<br/>longitudinal record<br/>at these depths, globally</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- DATASET -->
+<section id="dataset">
+  <div class="fade-in">
+    <p class="section-label">The Scientific Asset</p>
+    <h2>A decade of data no one else has collected</h2>
+    <p class="section-body">
+      Dr Rowley's dataset spans three Pacific site clusters, capturing conditions that no satellite, drone, or surface sensor can reach. It is the only longitudinal mesophotic reef record of its kind in existence.
+    </p>
+  </div>
+
+  <div class="dataset-grid fade-in" style="transition-delay:0.1s;">
+    <div class="dataset-item">
+      <div class="dataset-item-label">Collection period</div>
+      <div class="dataset-item-value">10+ years continuous</div>
+    </div>
+    <div class="dataset-item">
+      <div class="dataset-item-label">Depth range</div>
+      <div class="dataset-item-value">30 – 200 metres</div>
+    </div>
+    <div class="dataset-item">
+      <div class="dataset-item-label">Site clusters</div>
+      <div class="dataset-item-value">Hawaii · Pohnpei (FSM) · Timor-Leste</div>
+    </div>
+    <div class="dataset-item">
+      <div class="dataset-item-label">Variables captured</div>
+      <div class="dataset-item-value">Coral cover, bleaching, temperature, dissolved oxygen, chemical pollution, invasive species</div>
+    </div>
+    <div class="dataset-item">
+      <div class="dataset-item-label">Collection method</div>
+      <div class="dataset-item-value">Closed-circuit rebreather (CCR) scientific diving</div>
+    </div>
+    <div class="dataset-item">
+      <div class="dataset-item-label">Global uniqueness</div>
+      <div class="dataset-item-value">Only longitudinal dataset at this depth range, worldwide</div>
+    </div>
+  </div>
+
+  <div class="locations-strip fade-in" style="transition-delay:0.2s;">
+    <strong style="font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Active sites</strong>
+    <div class="location-dot-wrap">
+      <div class="location-dot"></div>
+      <span class="location-name">Hawaii, USA</span>
+    </div>
+    <span class="location-sep">·</span>
+    <div class="location-dot-wrap">
+      <div class="location-dot"></div>
+      <span class="location-name">Pohnpei, Federated States of Micronesia</span>
+    </div>
+    <span class="location-sep">·</span>
+    <div class="location-dot-wrap">
+      <div class="location-dot"></div>
+      <span class="location-name">Timor-Leste</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- TIERS -->
+<section id="tiers">
+  <div class="fade-in">
+    <p class="section-label">Data Access</p>
+    <h2>Three tiers. One dataset.</h2>
+    <p class="section-body">
+      Atolla licenses access to Dr Rowley's dataset under tiered agreements calibrated to your use case — from reef management policy through to parametric insurance trigger development.
+    </p>
+  </div>
+
+  <div class="tiers-grid fade-in" style="transition-delay:0.1s;">
+
+    <div class="tier-card">
+      <span class="tier-tag conservation">Conservation &amp; Policy</span>
+      <div class="tier-price">$15 – 30K</div>
+      <div class="tier-price-note">per year · site licence</div>
+      <h3>Environmental Protection</h3>
+      <p>Reef condition baselines, bleaching alerts, and invasive species data for protected area management, national marine policy, and inter-government conservation programmes.</p>
+      <div class="tier-buyers">
+        <strong>Typical buyers</strong>
+        Pacific island governments · NGOs · reef management agencies · biosecurity bodies
+      </div>
+    </div>
+
+    <div class="tier-card featured">
+      <span class="tier-tag esg">ESG &amp; Corporate</span>
+      <div class="tier-price">$50 – 100K</div>
+      <div class="tier-price-note">per year · portfolio licence</div>
+      <h3>Nature-Positive Reporting</h3>
+      <p>TNFD-aligned reef health baselines and trend data for corporate nature disclosure obligations, ESG platform integration, and supply chain biodiversity risk reporting.</p>
+      <div class="tier-buyers">
+        <strong>Typical buyers</strong>
+        TNFD-reporting companies · ESG data platforms · sustainability leads at corporates with ocean exposure
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <span class="tier-tag financial">Financial &amp; Insurance</span>
+      <div class="tier-price">$200K+</div>
+      <div class="tier-price-note">co-development · custom agreement</div>
+      <h3>Parametric Trigger Development</h3>
+      <p>Investment-grade reef condition time-series and early-warning bleaching signal for parametric insurance product development, impact fund baseline setting, and reef risk modelling.</p>
+      <div class="tier-buyers">
+        <strong>Typical buyers</strong>
+        Parametric insurers · reinsurers · Lloyd's syndicates · impact funds · reef risk modellers
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- SCIENCE -->
+<section id="science">
+  <div class="science-layout">
+    <div class="fade-in">
+      <p class="section-label">The Science Layer</p>
+      <h2>The scientist<br/>behind the data</h2>
+      <p class="section-body" style="margin-bottom:0;">
+        All data is collected, curated, and scientifically validated by Dr Sonia J. Rowley, PhD — Scientific Director of Rowley Marine LLC. Atolla holds an exclusive data licensing agreement. Dr Rowley retains full scientific ownership.
+      </p>
+      <ul class="science-credentials">
+        <li><div class="cred-dot"></div>One of fewer than 200 scientists globally certified to rebreather dive to 181m depth</li>
+        <li><div class="cred-dot"></div>Specialist in mesophotic coral ecosystems (30–200m), University of Hawaii</li>
+        <li><div class="cred-dot"></div>10+ year longitudinal dataset across Hawaii, Pohnpei (FSM), and Timor-Leste</li>
+        <li><div class="cred-dot"></div>FSM Government cost-matching: $532K/year in-kind field operations support</li>
+        <li><div class="cred-dot"></div>Active expedition programme; paid researcher participation open</li>
+      </ul>
+    </div>
+    <div class="fade-in" style="transition-delay:0.15s;">
+      <div class="team-cards">
+        <div class="team-card">
+          <div class="team-card-name">Dr Sonia J. Rowley, PhD</div>
+          <div class="team-card-role">Scientific Director · Rowley Marine LLC (SJR LLC)</div>
+          <div class="team-card-bio">Marine biologist and mesophotic reef specialist. Responsible for all data collection, methodology, and scientific publications. Holds data ownership under MOU. Does not participate in commercial negotiations.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-card-name">Luca Minale</div>
+          <div class="team-card-role">Commercial Lead · Atolla</div>
+          <div class="team-card-bio">MSc Entrepreneurship &amp; Innovation, University of San Francisco (2026). Leads all commercial partnerships, licensing agreements, and investor relations. All external commercial enquiries go through Luca.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="contact-inner">
+    <div class="fade-in">
+      <p class="section-label">Get in Touch</p>
+      <h2>Start a conversation</h2>
+      <p class="section-body">
+        Whether you are a government agency, ESG reporting team, or insurance product developer — if you have ocean-facing risk exposure, Atolla's dataset can help.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:luca.minale2002@gmail.com?subject=Data%20Brief%20Request" class="contact-link">
+          <div class="contact-link-icon">✉</div>
+          <div class="contact-link-meta">
+            <span class="contact-link-label">Email</span>
+            <span class="contact-link-value">luca.minale2002@gmail.com</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-cta-block fade-in" style="transition-delay:0.15s;">
+      <h3>Request the Data Brief</h3>
+      <p>
+        Our data brief covers dataset methodology, site coverage, variable inventory, and licensing terms. Institutional buyers and competition evaluators: this is your starting document.
+      </p>
+      <a href="mailto:luca.minale2002@gmail.com?subject=Data%20Brief%20Request&body=Hi%20Luca%2C%0A%0AI%27d%20like%20to%20request%20the%20Atolla%20data%20brief.%0A%0AOrganisation%3A%20%0AUse%20case%3A%20%0A%0AThanks" class="btn-primary">Request Data Brief</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Atolla</div>
+  <p>Deep-Reef Climate Intelligence · Pacific Ocean Data</p>
+  <p style="color:var(--muted);font-size:0.78rem;">Data © Rowley Marine LLC (SJR LLC) · Licensed exclusively to Atolla</p>
+</footer>
+
+<script>
+  // ── Particle canvas in hero ──
+  (function() {
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles;
+
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+
+    function makeParticle() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.5 + 0.4,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: -Math.random() * 0.35 - 0.1,
+        alpha: Math.random() * 0.5 + 0.15,
+      };
+    }
+
+    function init() {
+      resize();
+      particles = Array.from({ length: 140 }, makeParticle);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0,196,184,${p.alpha})`;
+        ctx.fill();
+
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.y < -4) { Object.assign(p, makeParticle(), { y: H + 4 }); }
+        if (p.x < -4)  p.x = W + 4;
+        if (p.x > W + 4) p.x = -4;
+      }
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => { resize(); });
+    init();
+    draw();
+  })();
+
+  // ── Scroll fade-in ──
+  (function() {
+    const els = document.querySelectorAll('.fade-in');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>
+</body>
+</html>
